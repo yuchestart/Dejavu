@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deja Vu</title>
+    <script type="module" src="./build/main.js"></script>
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/gui.css">
+</head>
+<body>
+    <canvas id="birdseye" width="500" height="500"></canvas>
+    <canvas id="main" width="500" height="500"></canvas><br>
+    <span id="livelog"></span>
+    <div id="youdied" class="fullscreen" hidden>
+        <img id="jumpscare" src="./assets/img/bigscarymonster.png" hidden>
+        <span id="youdiedtext">You Died!</span>
+        <a id="playagain" href="./index.html"><button>Play Again</button></a>
+    </div>
+    <div id="mainmenu" class="fullscreen">
+        <span class="titletext">Déjà Vu</span>
+        <button id="play">Play</button>
+    </div>
+</body>
+</html> 

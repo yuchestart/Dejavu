@@ -1,0 +1,122 @@
+.fullscreen{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100vw;
+    height:100vh;
+}
+
+/*YOU DIED SCREEN*/
+/*#region*/
+#youdiedtext{
+    color:red;
+    font-size:10vh;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    animation-name: youdied;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function:linear;
+    animation-fill-mode:forwards;
+    animation-play-state:paused;
+}
+#jumpscare{
+    height:100%;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%)
+}
+
+#youdied{
+    background-color:black;
+    animation-name:jumpscare;
+    animation-duration:0.1s;
+    animation-iteration-count:infinite;
+    animation-play-state: paused;
+    animation-timing-function:linear;
+    animation-fill-mode:backwards;
+}
+
+#playagain > button{
+    font-size:2em;
+    background-color:black;
+    color:white;
+    cursor:pointer;
+    border:none;
+}
+
+@keyframes jumpscare{
+    0%{
+        background-color:black;
+    }
+    25%{
+        background-color:blue;
+    }
+    50%{
+        background-color:green;
+    }
+    75%{
+        background-color:red;
+    }
+    100%{
+        background-color:white;
+    }
+}
+
+@keyframes youdied{
+    0%{
+        top:25%;
+        font-size:20vh;
+        color:black;
+    }
+    25%{
+        top:25%;
+        font-size:15vh;
+        color:rgb(73, 0, 0);
+    }
+    100%{
+        top:50%;
+        font-size:10vh;
+        color:red;
+    }
+}
+/*#endregion*/
+
+/*MAIN MENU*/
+/*#region*/
+
+#mainmenu{
+    background-color:black;
+}
+
+.titletext{
+    font-size:20vh;
+    color:white;
+    position:absolute;
+    top:25%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+#play{
+    border:outset 5px white;
+    background-color:grey;
+    color:black;
+    font-size:5vh;
+    padding:3px 4em 3px 4em;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    cursor:pointer;
+}
+#play:active{
+    border:inset 5px lightgrey;
+    background-color:rgb(65, 65, 65);
+    color:white;
+}
+
+/*#endregion*/
