@@ -21,8 +21,8 @@ export class Enemy{
         this.image = document.createElement("img");
         this.image.src = image;
         this.scream = new Audio(audio);
-        this.position.x = Math.floor(Math.random()*50) + 4.5;
-        this.position.y = Math.floor(Math.random()*50) + 4.5;
+        this.position.x = Math.floor(Math.random()*50)*10 + 4.5;
+        this.position.y = Math.floor(Math.random()*50)*10 + 4.5;
     }
 
     public start(){
@@ -43,8 +43,8 @@ export class Enemy{
         if(distance > 30){
             this.curspeed = Enemy.CHASE.initial;
             if(Math.floor(Math.random()*5000) < 10){
-                this.position.x = Math.floor(Math.random()*50) + 4.5;
-                this.position.y = Math.floor(Math.random()*50) + 4.5;
+                this.position.x = Math.floor(Math.random()*50)*10 + 4.5;
+                this.position.y = Math.floor(Math.random()*50)*10 + 4.5;
             }
             return;
         }
