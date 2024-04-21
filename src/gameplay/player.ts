@@ -9,6 +9,7 @@ export class Player{
         heading:0,
     };
     public stamina: number = 10;
+    private staminaregen: number = 0;
     public readonly PLAYER_SPEEDS:{[id: string]:number} = {
         run:0.03,
         walk:0.01,
@@ -117,12 +118,16 @@ export class Player{
             this.stamina -= 0.01;
             if(this.stamina < 0){
                 this.stamina = 0;
+                this.staminaregen = 100;
             }
         }
         //Check if the player is running or walking
         const SPEED: number = input.KeyDown.ShiftLeft && this.stamina > 0 ? this.PLAYER_SPEEDS.run : this.PLAYER_SPEEDS.walk;
         if(this.stamina < 10 && !input.KeyDown.ShiftLeft){
-            this.stamina += 0.001
+            if(this.staminaregen > 0){
+                this.staminaregen--;
+            }
+            this.stamina += 0.005
         }
         let prevp:number = this.position.y;
         let walking: boolean = false;

@@ -42,7 +42,7 @@ export class Enemy{
         this.scream.volume = volume;
         if(distance > 30){
             this.curspeed = Enemy.CHASE.initial;
-            if(Math.floor(Math.random()*5000) < 10){
+            if(Math.floor(Math.random()*1000) < 10){
                 this.position.x = Math.floor(Math.random()*50)*10 + 4.5;
                 this.position.y = Math.floor(Math.random()*50)*10 + 4.5;
             }
