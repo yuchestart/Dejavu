@@ -20,7 +20,7 @@ let level:Level;
 const dv = 1000/Math.tan(100/2);
 export function begin(): void{
     
-    for(let i=0; i< Math.floor(Math.random()*5) + 15; i++)
+    for(let i=0; i< Math.floor(Math.random()*5) + 50; i++)
     {
         entities.push(new Enemy("./assets/img/bigscarymonster.png","./assets/audio/unsettlingscream.mp3"));
         entities[i].start();

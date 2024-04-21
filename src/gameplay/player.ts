@@ -114,6 +114,7 @@ export class Player{
         let rotfactory: number = -Math.cos(radians);
         let rotfactorsidestepx: number = Math.sin(radiansSidestep);
         let rotfactorsidestepy: number = -Math.cos(radiansSidestep);
+
         if(input.KeyDown.ShiftLeft){
             this.stamina -= 0.01;
             if(this.stamina < 0){
