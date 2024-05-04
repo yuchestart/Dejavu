@@ -78,3 +78,6 @@ export class RNG{
         }
     }
 }
+
+export const DX = [0,0,-1,1];
+export const DY = [-1,1,0,0];

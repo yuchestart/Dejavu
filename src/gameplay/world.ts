@@ -1,9 +1,10 @@
 import { Player } from "./player.js";
 import {RNG} from "../utilities/random.js"
-
+/**
+ * A 10x10 segment of a level
+ */
 export class Segment
-{
-    
+{  
     public data:Array<Array<number>>;
     
     constructor(data:Array<Array<number>>)

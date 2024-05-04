@@ -5,7 +5,8 @@
         "target":"ES6",
         "outDir":"build",
         "allowJs":true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "typeRoots": ["./node_modules/@types"]
     },
     "include":[
         "src/"

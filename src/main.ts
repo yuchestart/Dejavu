@@ -2,9 +2,10 @@ import { Input } from "./gameplay/input.js"
 import { Player } from "./gameplay/player.js";
 import { $ } from "./utilities.js";
 import { Level, loadLevels } from "./gameplay/world.js";
-import { makeScan, renderScene, scanLevel } from "./rendering/renderer.js";
+//import { makeScan, renderScene, scanLevel } from "./rendering/renderer.js";
 import { Enemy } from "./gameplay/fighting.js";
 import { die } from "./gui.js";
+import { initRendering } from "./rendering/renderer.js";
 
 
 let input:Input,
@@ -29,6 +30,7 @@ export function begin(): void{
     $("mainmenu").id.hidden = true;
     mainloop();    
 }
+/*
 function mainloop():void{
     try{
         if(player.dead){
@@ -83,14 +85,17 @@ function mainloop():void{
         console.error(e.stack);
     }
 }
+*/
+function mainloop():void{
 
+}
 function main():void{
     input = new Input(/*"main"*/);
     player = new Player("./assets/audio/footsteps.mp3","./assets/audio/run.mp3","./assets/audio/noclip.mp3");
     canvas = $("main").id as HTMLCanvasElement;
-    ctx = canvas.getContext("2d");
-    ctx.imageSmoothingEnabled = false;
-    
+    //ctx = canvas.getContext("2d");
+    //ctx.imageSmoothingEnabled = false;
+    initRendering();
     loadLevels("./levels/levels.json",function(a,b){
         level = b[0];
         level.setSpawn();

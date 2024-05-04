@@ -2,9 +2,9 @@ import { Input } from "./gameplay/input.js";
 import { Player } from "./gameplay/player.js";
 import { $ } from "./utilities.js";
 import { loadLevels } from "./gameplay/world.js";
-import { makeScan, renderScene, scanLevel } from "./rendering/renderer.js";
+//import { makeScan, renderScene, scanLevel } from "./rendering/renderer.js";
 import { Enemy } from "./gameplay/fighting.js";
-import { die } from "./gui.js";
+import { initRendering } from "./rendering/renderer.js";
 let input, ctx, canvas, player;
 const entities = [];
 let birdseye, birdseyecanvas;
@@ -19,65 +19,71 @@ export function begin() {
     $("mainmenu").id.hidden = true;
     mainloop();
 }
-function mainloop() {
-    try {
-        if (player.dead) {
-            for (let i = 0; i < entities.length; i++) {
-                entities[i].stop();
+/*
+function mainloop():void{
+    try{
+        if(player.dead){
+            for(let i=0; i<entities.length; i++){
+                entities[i].stop()
             }
             player.stop();
             die();
             return;
         }
         $("livelog").id.innerText = "";
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        player.update(input, level);
-        for (let i = 0; i < entities.length; i++) {
-            entities[i].update(player, level);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        player.update(input,level);
+        for(let i=0; i<entities.length; i++){
+            entities[i].update(player,level);
         }
-        let scan = makeScan(scanLevel(player, level));
-        if (player.nocliptimer < 100) {
+        let scan = makeScan(scanLevel(player,level));
+        if(player.nocliptimer < 100){
             ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, 500, 500);
+            ctx.fillRect(0,0,500,500);
             requestAnimationFrame(mainloop);
             return;
         }
-        for (let i = 0; i <= 250; i++) {
-            ctx.strokeStyle = `rgb(${(250 - i) * 0.856 - 100},${(250 - i) * 0.856 - 100},${(250 - i) * 0.856 - 100})`;
+
+        for(let i=0; i<=250; i++){
+            ctx.strokeStyle = `rgb(${(250-i)*0.856-100},${(250-i)*0.856-100},${(250-i)*0.856-100})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(0, i);
-            ctx.lineTo(500, i);
-            ctx.stroke();
+            ctx.moveTo(0,i);
+            ctx.lineTo(500,i);
+            ctx.stroke()
         }
-        for (let i = 0; i <= 250; i++) {
-            ctx.strokeStyle = `rgb(${i * 0.344 - 100},${i * 0.896 - 100},${i * 0.38 - 100})`;
+        for(let i=0; i<=250; i++){
+            ctx.strokeStyle = `rgb(${i*0.344-100},${i*0.896-100},${i*0.38-100})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(0, 250 + i);
-            ctx.lineTo(500, 250 + i);
-            ctx.stroke();
+            ctx.moveTo(0,250+i);
+            ctx.lineTo(500,250+i);
+            ctx.stroke()
         }
-        renderScene(ctx, player, scan, entities);
+        renderScene(ctx,player,scan,entities)
         ctx.fillStyle = "red";
-        ctx.font = "13px sans-serif";
-        ctx.fillRect(10, 485, player.stamina * 10, 5);
-        ctx.fillText("Stamina", 10, 480);
+        ctx.font = "13px sans-serif"
+        ctx.fillRect(10,485,player.stamina*10,5)
+        ctx.fillText("Stamina",10,480)
         //entity.render(ctx,player);
         //$("livelog").id.innerText += `${entity.getEntityPosition(player)}`;
+        
         requestAnimationFrame(mainloop);
-    }
-    catch (_e) {
-        let e = _e;
+    } catch (_e){
+        let e: Error = _e;
         console.error(e.stack);
     }
+}
+*/
+function mainloop() {
 }
 function main() {
     input = new Input( /*"main"*/);
     player = new Player("./assets/audio/footsteps.mp3", "./assets/audio/run.mp3", "./assets/audio/noclip.mp3");
     canvas = $("main").id;
-    ctx = canvas.getContext("2d");
-    ctx.imageSmoothingEnabled = false;
+    //ctx = canvas.getContext("2d");
+    //ctx.imageSmoothingEnabled = false;
+    initRendering();
     loadLevels("./levels/levels.json", function (a, b) {
         level = b[0];
         level.setSpawn();

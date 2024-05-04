@@ -1,4 +1,3 @@
-import { dv } from "../rendering/renderer.js";
 export class Enemy {
     constructor(image, audio) {
         this.position = {
@@ -80,10 +79,10 @@ export class Enemy {
         ctx.fillStyle = "red";
         if (p[1] < 0)
             return;
-        let depth = (dv / p[1]);
+        //let depth: number = (dv/p[1]);
         //$("livelog").id.innerText += `DisplayX : ${p[0]*(dv/p[1])+250} DV: ${dv}\n`
         //ctx.fillRect(p[0]*(dv/p[1])+250-(dv/(p[1]*2)),250,(dv/p[1]),(dv/p[1]));
-        ctx.drawImage(this.image, p[0] * depth + 250 - depth / 2, 250 - depth / 2, depth, depth);
+        //ctx.drawImage(this.image,p[0]*depth+250-depth/2,250-depth/2,depth,depth);
     }
     draw(ctx, scale = 1) {
         const radians = (this.position.heading / 180) * Math.PI;
