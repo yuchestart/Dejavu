@@ -4,7 +4,6 @@
         "esModuleInterop": true,
         "target":"ES6",
         "outDir":"build",
-        "allowJs":true,
         "moduleResolution": "Node",
         "typeRoots": ["./node_modules/@types"]
     },
