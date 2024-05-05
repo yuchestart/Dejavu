@@ -1,4 +1,7 @@
 import { RNG } from "../utilities/random.js";
+/**
+ * A 10x10 segment of a level
+ */
 export class Segment {
     constructor(data) {
         this.data = data;

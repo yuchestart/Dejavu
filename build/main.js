@@ -83,13 +83,13 @@ function main() {
     canvas = $("main").id;
     //ctx = canvas.getContext("2d");
     //ctx.imageSmoothingEnabled = false;
-    initRendering();
     loadLevels("./levels/levels.json", function (a, b) {
         level = b[0];
         level.setSpawn();
         level.generate();
         console.log(level);
         player.setSpawn(b[0].spawnlocation.x, b[0].spawnlocation.y);
+        initRendering(level);
         $("play").id.addEventListener("click", begin);
     });
 }
