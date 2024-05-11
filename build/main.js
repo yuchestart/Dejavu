@@ -76,6 +76,8 @@ function mainloop():void{
 }
 */
 function mainloop() {
+    if (input.KeyDown.W) {
+    }
 }
 function main() {
     input = new Input( /*"main"*/);
