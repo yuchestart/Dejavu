@@ -1,4 +1,4 @@
-import { Enemy } from "../gameplay/fighting.js";
+
 import { Player } from "../gameplay/player.js";
 import { Level, Segment } from "../gameplay/world.js";
 import { $, DX, DY } from "../utilities.js";
@@ -7,46 +7,18 @@ import * as THREE from "three";
 const RENDER_DISTANCE: number = 3;
 let renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.PerspectiveCamera;
 let levelMeshes: THREE.Mesh[];
+let walls: THREE.Group, prevPlayerChunkPos: {x:number,y:number}, levelMaterial: THREE.Material;
 
-export function initRendering(level: Level){
+export function initRendering(){
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     $("container").id.appendChild(renderer.domElement);
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight, 0.1, 1000);
-    //const geometry = new THREE.BoxGeometry(1,1,1);
-    //const material = new THREE.MeshPhongMaterial({color:0xff0000});
-    //const light = new THREE.PointLight();
-    //light.position.y = 1;
-    //const cube = new THREE.Mesh(geometry,material);
-    //cube.castShadow = true;
-    //cube.rotation.x+=45;
-    //cube.rotation.y+=45;
-    //scene.add(cube);
-    //scene.add(light);
-    //camera.position.z = 5;
-    //renderer.render(scene,camera);
-    const loader: THREE.TextureLoader = new THREE.TextureLoader();
-    loader.load("assets/img/wall.png",function(texture:THREE.Texture){
-        texture.colorSpace = THREE.SRGBColorSpace;
-        let material: THREE.Material = new THREE.MeshBasicMaterial({map:texture});
 
-        let mesh = generateLevelMesh(level.segments[0]);
-        mesh.material = material;
-        scene.add(mesh);
-        camera.position.z = 5;
-        camera.position.y = 0.5;
-        camera.position.x = 5;
-        //camera.rotation.x = -Math.PI*0.5*0.75;
-        camera.rotation.y = -Math.PI*0.5*0.75;
-        renderer.render(scene,camera);
-        console.log(mesh)
-    });
 }
 
-
-
-function generateLevelMesh(segment: Segment): THREE.Mesh{
+function generateSegmentMesh(segment: Segment): THREE.Mesh{
     let positionData: number[] = [];
     let uv: number[] = [];
     let data: number[][] = segment.data;
@@ -110,10 +82,30 @@ function generateLevelMesh(segment: Segment): THREE.Mesh{
 export function prepareLevels(level: Level):void{
     let segments: Segment[] = level.segments;
     for(let i=0; i<segments.length; i++){
-        //levelMeshes.push(generateLevelMesh(segments[i]));
+        levelMeshes.push(generateSegmentMesh(segments[i]));
     }
 }
 
-export function renderScene(){
+export function updateChunks(level: Level, player: Player):void{
+
     
+
+    let playerChunkPos:{x:number,y:number} = {x:Math.floor(player.position.x/10),y:Math.floor(player.position.y/10)};
+    if(playerChunkPos.x === prevPlayerChunkPos.x && playerChunkPos.y === prevPlayerChunkPos.y)return;
+    walls.position.x = Math.floor(player.position.x/10)*10;
+    walls.position.z = Math.floor(player.position.y/10)*10;
+    prevPlayerChunkPos = playerChunkPos;
+
+    walls = new THREE.Group();
+    walls.name = "wall";
+    
+    
+    for(let r: number = -Math.floor(RENDER_DISTANCE/2)+playerChunkPos.y; r<=Math.floor(RENDER_DISTANCE/2)+playerChunkPos.y; r++){
+        let row = r < 0 ? r+level.height : r >= level.height ? r-level.height : r;
+        for(let c: number = -Math.floor(RENDER_DISTANCE/2)+playerChunkPos.x; c<=Math.floor(RENDER_DISTANCE/2)+playerChunkPos.x; c++){
+            let column = c < 0 ? c + level.width : c >= level.width ? c - level.width : c;
+            let mesh = generateSegmentMesh(level.segments[level.level[row][column]]);
+            mesh.material = 
+        }
+    }
 }
