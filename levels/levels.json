@@ -150,7 +150,8 @@
     "levels":[
         {
             "width":25,
-            "height":25
+            "height":25,
+            "wallMaterial":"assets/img/wall.png"
         }
     ]
 }

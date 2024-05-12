@@ -1,98 +1,60 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { Input } from "./gameplay/input.js";
 import { Player } from "./gameplay/player.js";
 import { $ } from "./utilities.js";
 import { loadLevels } from "./gameplay/world.js";
-//import { makeScan, renderScene, scanLevel } from "./rendering/renderer.js";
-import { Enemy } from "./gameplay/fighting.js";
-import { initRendering } from "./rendering/renderer.js";
+import { drawScene, initRendering, prepareLevels, updateCamera, updateChunks } from "./rendering/renderer.js";
 let input, ctx, canvas, player;
-const entities = [];
-let birdseye, birdseyecanvas;
-let level;
-const dv = 1000 / Math.tan(100 / 2);
-export function begin() {
-    for (let i = 0; i < Math.floor(Math.random() * 5) + 50; i++) {
-        entities.push(new Enemy("./assets/img/bigscarymonster.png", "./assets/audio/unsettlingscream.mp3"));
-        entities[i].start();
-    }
-    player.start();
+let level = 0;
+let levels;
+function setup(callback) {
+    return __awaiter(this, void 0, void 0, function* () {
+        initRendering();
+        $("loadingscreen").id.hidden = true;
+        $("mainmenu").id.hidden = false;
+        for (let i = 0; i < levels.length; i++) {
+            yield prepareLevels(levels[i]);
+            levels[i].generate();
+        }
+        callback();
+    });
+}
+function begin() {
     $("mainmenu").id.hidden = true;
     mainloop();
 }
-/*
-function mainloop():void{
-    try{
-        if(player.dead){
-            for(let i=0; i<entities.length; i++){
-                entities[i].stop()
-            }
-            player.stop();
-            die();
-            return;
-        }
-        $("livelog").id.innerText = "";
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        player.update(input,level);
-        for(let i=0; i<entities.length; i++){
-            entities[i].update(player,level);
-        }
-        let scan = makeScan(scanLevel(player,level));
-        if(player.nocliptimer < 100){
-            ctx.fillStyle = "black";
-            ctx.fillRect(0,0,500,500);
-            requestAnimationFrame(mainloop);
-            return;
-        }
-
-        for(let i=0; i<=250; i++){
-            ctx.strokeStyle = `rgb(${(250-i)*0.856-100},${(250-i)*0.856-100},${(250-i)*0.856-100})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(0,i);
-            ctx.lineTo(500,i);
-            ctx.stroke()
-        }
-        for(let i=0; i<=250; i++){
-            ctx.strokeStyle = `rgb(${i*0.344-100},${i*0.896-100},${i*0.38-100})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(0,250+i);
-            ctx.lineTo(500,250+i);
-            ctx.stroke()
-        }
-        renderScene(ctx,player,scan,entities)
-        ctx.fillStyle = "red";
-        ctx.font = "13px sans-serif"
-        ctx.fillRect(10,485,player.stamina*10,5)
-        ctx.fillText("Stamina",10,480)
-        //entity.render(ctx,player);
-        //$("livelog").id.innerText += `${entity.getEntityPosition(player)}`;
-        
+function mainloop() {
+    try {
+        updateChunks(levels[level], player);
+        player.update(input, levels[level]);
+        updateCamera(player);
+        drawScene();
         requestAnimationFrame(mainloop);
-    } catch (_e){
-        let e: Error = _e;
+    }
+    catch (e) {
         console.error(e.stack);
     }
 }
-*/
-function mainloop() {
-    if (input.KeyDown.W) {
-    }
-}
 function main() {
-    input = new Input( /*"main"*/);
+    input = new Input();
     player = new Player("./assets/audio/footsteps.mp3", "./assets/audio/run.mp3", "./assets/audio/noclip.mp3");
     canvas = $("main").id;
     //ctx = canvas.getContext("2d");
     //ctx.imageSmoothingEnabled = false;
-    loadLevels("./levels/levels.json", function (a, b) {
-        level = b[0];
-        level.setSpawn();
-        level.generate();
-        console.log(level);
+    loadLevels("./levels/levels.json", function (b) {
+        levels = b;
         player.setSpawn(b[0].spawnlocation.x, b[0].spawnlocation.y);
-        initRendering(level);
-        $("play").id.addEventListener("click", begin);
+        setup(function () {
+            $("play").id.addEventListener("click", begin);
+        });
     });
 }
 window.addEventListener("load", main);

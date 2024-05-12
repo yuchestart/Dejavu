@@ -18,7 +18,7 @@ export class Segment {
     }
 }
 export class Level {
-    constructor(segments, seed, width = 50, height = 50) {
+    constructor(segments, seed, width = 50, height = 50, wallTexturePath) {
         this.level = [];
         this.spawnlocation = { x: -1, y: -1 };
         this.segments = segments;
@@ -37,6 +37,7 @@ export class Level {
         this.width = width;
         this.height = height;
         this.seed(seed);
+        this.wallTexturePath = wallTexturePath;
     }
     seed(seed) {
         if (seed)
@@ -68,15 +69,9 @@ export class Level {
         }
     }
     setSpawn() {
-        /*
         this.spawnlocation = {
-            x:Math.floor(this.random.random()*this.width),
-            y:Math.floor(this.random.random()*this.width)
-        }
-        */
-        this.spawnlocation = {
-            x: 0,
-            y: 0
+            x: Math.floor(this.random.random() * this.width),
+            y: Math.floor(this.random.random() * this.width)
         };
     }
 }
@@ -91,8 +86,8 @@ export function loadLevels(filepath, callback) {
             segments.push(new Segment(json.segments[i]));
         }
         for (let i = 0; i < json.levels.length; i++) {
-            levels.push(new Level(segments, void 0, json.levels[i].width, json.levels[i].height));
+            levels.push(new Level(segments, void 0, json.levels[i].width, json.levels[i].height, json.levels[i].wallMaterial));
         }
-        callback(segments, levels);
+        callback(levels);
     });
 }

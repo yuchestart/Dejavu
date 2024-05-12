@@ -100,7 +100,6 @@
     left:50%;
     transform:translate(-50%,-50%);
 }
-
 #play{
     border:outset 5px white;
     background-color:grey;
@@ -118,5 +117,24 @@
     background-color:rgb(65, 65, 65);
     color:white;
 }
+
+/*#endregion*/
+
+/*Loading screen*/
+/*#region*/
+
+.loadtext{
+    font-size:10vh;
+    color:white;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+#loadingscreen{
+    background-color:black;
+}
+
 
 /*#endregion*/

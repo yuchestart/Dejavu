@@ -19,52 +19,6 @@ export class Player {
         this.sounds.noclip = new Audio(noclip);
     }
     detectCollision(level) {
-        for (let row = -1; row <= 1; row++) {
-            for (let column = -1; column <= 1; column++) {
-                let truex = Math.floor(this.position.x + column);
-                let truey = Math.floor(this.position.y + row);
-                let segmentx = Math.floor((this.position.x + column) / 10);
-                let segmenty = Math.floor((this.position.y + row) / 10);
-                let tilex = Math.floor(this.position.x % 10);
-                let tiley = Math.floor(this.position.y % 10);
-                if (segmentx < 0)
-                    segmentx += level.width;
-                if (segmenty < 0)
-                    segmenty += level.height;
-                if (segmentx >= level.width)
-                    segmentx -= level.width;
-                if (segmenty >= level.height)
-                    segmenty -= level.height;
-                segmentx %= level.width;
-                segmenty %= level.height;
-                if (tilex < 0)
-                    tilex += 10;
-                if (tiley < 0)
-                    tiley += 10;
-                tilex %= 10;
-                tiley %= 10;
-                if (level.level[segmenty][segmentx] === -1)
-                    continue;
-                if (level.segments[level.level[segmenty][segmentx]].data[tiley][tilex]) {
-                    let box1 = [
-                        this.position.x - 0.25,
-                        this.position.x + 0.25,
-                        this.position.y - 0.25,
-                        this.position.y + 0.25
-                    ];
-                    let box2 = [
-                        truex,
-                        truex + 1,
-                        truey,
-                        truey + 1
-                    ];
-                    if (box1[0] < box2[1] && box1[1] > box2[0] &&
-                        box1[2] < box2[3] && box1[3] > box2[2]) {
-                        return true;
-                    }
-                }
-            }
-        }
         return false;
     }
     setSpawn(x, y) {

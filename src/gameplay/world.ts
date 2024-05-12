@@ -34,8 +34,9 @@ export class Level
     public width: number;
     public height: number;
     public spawnlocation:{x:number,y:number} = {x:-1,y:-1};
+    public wallTexturePath: string;
 
-    constructor(segments: Array<Segment>,seed?:number,width:number = 50,height:number = 50)
+    constructor(segments: Array<Segment>,seed?:number,width:number = 50,height:number = 50,wallTexturePath?:string)
     {
         this.segments = segments;
         this.segments[-1] = new Segment([
@@ -53,6 +54,7 @@ export class Level
         this.width = width;
         this.height = height;
         this.seed(seed);
+        this.wallTexturePath = wallTexturePath;
     }
 
     public seed(seed?:number):void
@@ -100,23 +102,18 @@ export class Level
 
     public setSpawn():void
     {
-        /*
+        
         this.spawnlocation = {
             x:Math.floor(this.random.random()*this.width),
             y:Math.floor(this.random.random()*this.width)
         }
-        */
-        this.spawnlocation = {
-            x:0,
-            y:0
-        };
     }
 }
 
-export function loadLevels(filepath:string,callback:(segments:Array<Segment>,levels:Array<Level>)=>void):void{
+export function loadLevels(filepath:string,callback:(levels:Array<Level>)=>void):void{
     fetch(filepath)
     .then(response => response.json())
-    .then((json:{segments:Array<Array<Array<number>>>,levels:Array<{width:number,height:number}>}) => {
+    .then((json:{segments:Array<Array<Array<number>>>,levels:{width:number,height:number,wallMaterial:string}[]}) => {
         const segments:Array<Segment> = [];
         const levels:Array<Level> = [];
         console.log(json)
@@ -124,9 +121,9 @@ export function loadLevels(filepath:string,callback:(segments:Array<Segment>,lev
             segments.push(new Segment(json.segments[i]));
         }
         for(let i=0; i<json.levels.length; i++){
-            levels.push(new Level(segments,void 0,json.levels[i].width,json.levels[i].height));
+            levels.push(new Level(segments,void 0,json.levels[i].width,json.levels[i].height,json.levels[i].wallMaterial));
         }
-        callback(segments,levels);
+        callback(levels);
     });
 }
 
