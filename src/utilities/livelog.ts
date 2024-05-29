@@ -1,3 +1,9 @@
+/**
+ * DELETE BEFORE RELEASING; LIVELOG IS NOT NEEDED :)
+ * Unless you want to rickroll them for some reason
+ */
+
+
 import { Segment } from "../gameplay/world.js";
 import { Point } from "../init.js";
 import { $ } from "./utilities.js";
