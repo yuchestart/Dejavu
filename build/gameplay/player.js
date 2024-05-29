@@ -1,3 +1,5 @@
+import { DX, DY, clamp } from "../utilities/utilities.js";
+import { liveLog, logSegment } from "../utilities/livelog.js";
 export class Player {
     constructor(walk, run, noclip) {
         this.position = {
@@ -7,9 +9,10 @@ export class Player {
         };
         this.stamina = 10;
         this.staminaregen = 0;
-        this.PLAYER_SPEEDS = {
+        this.PLAYER_CONSTANTS = {
             run: 0.03,
             walk: 0.01,
+            playerRadius: 0
         };
         this.sounds = {};
         this.dead = false;
@@ -19,11 +22,58 @@ export class Player {
         this.sounds.noclip = new Audio(noclip);
     }
     detectCollision(level) {
+        let chunkCoordinates = {
+            x: clamp(Math.floor(this.position.x / 10), 0, level.width, true),
+            y: clamp(Math.floor(this.position.y / 10), 0, level.height, true)
+        };
+        let segmentCoordinates = {
+            x: this.position.x % 10,
+            y: this.position.y % 10
+        };
+        liveLog("BEGIN COLLISION CHECK", chunkCoordinates);
+        logSegment(level.segments[level.level[chunkCoordinates.y][chunkCoordinates.x]], segmentCoordinates);
+        for (let r = 0; r < 10; r++) {
+            for (let c = 0; c < 10; c++) {
+                if (segmentCoordinates.x - this.PLAYER_CONSTANTS.playerRadius < c + 1 &&
+                    segmentCoordinates.x + this.PLAYER_CONSTANTS.playerRadius > c &&
+                    segmentCoordinates.y - this.PLAYER_CONSTANTS.playerRadius < r + 1 &&
+                    segmentCoordinates.y + this.PLAYER_CONSTANTS.playerRadius > r &&
+                    level.segments[level.level[chunkCoordinates.y][chunkCoordinates.x]].data[r][c]) {
+                    liveLog("I AM COLLIDING1", segmentCoordinates.x, segmentCoordinates.y, r, c, level.segments[level.level[chunkCoordinates.y][chunkCoordinates.x]].data[r][c]);
+                    return true;
+                }
+            }
+        }
+        liveLog("SIDES");
+        for (let i = 0; i < 4; i++) {
+            let offsetx = DX[i];
+            let offsety = DY[i];
+            let chunkCoordinates = {
+                x: Math.floor(clamp(this.position.x / 10 - offsetx, 0, level.width, true)),
+                y: Math.floor(clamp(this.position.y / 10 - offsety, 0, level.height, true))
+            };
+            liveLog("SIDE:", offsetx, offsety);
+            logSegment(level.segments[level.level[chunkCoordinates.y][chunkCoordinates.x]], { x: segmentCoordinates.x - offsetx * 10, y: segmentCoordinates.y - offsety * 10 });
+            for (let r = 0; r < 10; r++) {
+                for (let c = 0; c < 10; c++) {
+                    let x = clamp(segmentCoordinates.x - offsetx * 10, 0, level.width * 10, true);
+                    let y = clamp(segmentCoordinates.y - offsety * 10, 0, level.height * 10, true);
+                    if (x - this.PLAYER_CONSTANTS.playerRadius < c + 1 &&
+                        x + this.PLAYER_CONSTANTS.playerRadius > c &&
+                        y - this.PLAYER_CONSTANTS.playerRadius < r + 1 &&
+                        y + this.PLAYER_CONSTANTS.playerRadius > r &&
+                        level.segments[level.level[chunkCoordinates.y][chunkCoordinates.x]].data[r][c]) {
+                        liveLog("I AM COLLIDING2");
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
     setSpawn(x, y) {
-        this.position.x = x + 5;
-        this.position.y = y + 5;
+        this.position.x = x + 5.7;
+        this.position.y = y + 5.7;
         this.position.heading = 90;
     }
     start() {
@@ -57,7 +107,6 @@ export class Player {
         else if (input.KeyDown.ArrowLeft) {
             this.setRotation(this.position.heading - 2);
         }
-        //DO a bunch of math
         let radians = (this.position.heading / 180) * Math.PI;
         let radiansSidestep = ((this.position.heading + 90) / 180) * Math.PI;
         let rotfactorx = Math.sin(radians);
@@ -71,8 +120,7 @@ export class Player {
                 this.staminaregen = 100;
             }
         }
-        //Check if the player is running or walking
-        const SPEED = input.KeyDown.ShiftLeft && this.stamina > 0 ? this.PLAYER_SPEEDS.run : this.PLAYER_SPEEDS.walk;
+        const SPEED = input.KeyDown.ShiftLeft && this.stamina > 0 ? this.PLAYER_CONSTANTS.run : this.PLAYER_CONSTANTS.walk;
         if (this.stamina < 10 && !input.KeyDown.ShiftLeft) {
             if (this.staminaregen > 0) {
                 this.staminaregen--;
@@ -81,7 +129,6 @@ export class Player {
         }
         let prevp = this.position.y;
         let walking = false;
-        //Handle controls
         if (input.KeyDown.KeyW) {
             this.position.y += SPEED * rotfactory;
             walking = true;
@@ -110,14 +157,14 @@ export class Player {
             this.sounds.walk.volume = 0;
             this.sounds.run.volume = 0;
         }
-        //Handle collisions
+        liveLog("CHECK Y");
         if (this.detectCollision(level)) {
             if (input.KeyDown.Space && Math.floor(Math.random() * 100) < 4) {
                 this.nocliptimer = 0;
                 this.sounds.noclip.currentTime = 0;
                 this.sounds.noclip.play();
-                this.position.x = Math.floor(Math.random() * 50) * 10 + 4.5;
-                this.position.y = Math.floor(Math.random() * 50) * 10 + 4.5;
+                this.position.x = Math.floor(Math.random() * level.width) * 10 + 4.5;
+                this.position.y = Math.floor(Math.random() * level.height) * 10 + 4.5;
                 return;
             }
             this.position.y = prevp;
@@ -135,18 +182,18 @@ export class Player {
         else if (input.KeyDown.KeyD) {
             this.position.x += SPEED * rotfactorsidestepx;
         }
+        liveLog("CHECK X");
         if (this.detectCollision(level)) {
             if (input.KeyDown.Space && Math.floor(Math.random() * 100) < 4) {
                 this.nocliptimer = 0;
                 this.sounds.noclip.currentTime = 0;
                 this.sounds.noclip.play();
-                this.position.x = Math.floor(Math.random() * 50) * 10 + 4.5;
-                this.position.y = Math.floor(Math.random() * 50) * 10 + 4.5;
+                this.position.x = Math.floor(Math.random() * level.width) * 10 + 4.5;
+                this.position.y = Math.floor(Math.random() * level.height) * 10 + 4.5;
                 return;
             }
             this.position.x = prevp;
         }
-        //Handle going off the map
         if (this.position.x > level.width * 10)
             this.position.x -= level.width * 10;
         if (this.position.x < 0)
