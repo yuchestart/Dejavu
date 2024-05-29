@@ -14,6 +14,7 @@
     <script type="module" src="./build/main.js"></script>
     <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="./assets/css/gui.css">
+    <link rel="stylesheet" href="./assets/css/livelog.css">
     <link rel="icon" href="./assets/img/bigscarymonster.png">
     
 </head>
@@ -31,6 +32,11 @@
     </div>
     <div id="loadingscreen" class="fullscreen">
         <span class="loadtext">Loading...</span>
+    </div>
+    <div id="livelog">
+        <h2>LiveLog</h2>Frame:<span id="llframecount">0</span><br>
+        <button id="llpause">Pause</button><button id="llplay">Play</button><br>
+        <textarea id="lltext">LiveLog is currently empty.</textarea>
     </div>
 </body>
 </html> 
