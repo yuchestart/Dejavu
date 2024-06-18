@@ -5,6 +5,7 @@
         "target":"ES6",
         "outDir":"build",
         "moduleResolution": "Node",
+        "removeComments": true,
         "typeRoots": ["./node_modules/@types"]
     },
     "include":[

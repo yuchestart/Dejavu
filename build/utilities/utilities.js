@@ -12,9 +12,26 @@ export function $(toquery, parent) {
 }
 export function clamp(x, a, b, loop = false) {
     if (loop)
-        return x < a ? b - Math.abs(x - a) : x > b ? a + (Math.abs(x - b)) : x;
-    else
-        return x < a ? a : x > b ? b : x;
+        if (x < a) {
+            return x + Math.abs(b - a);
+        }
+        else if (x > b) {
+            return x - Math.abs(b - a);
+        }
+        else {
+            return x;
+        }
+    else {
+        if (x < a) {
+            return a;
+        }
+        else if (x > b) {
+            return b;
+        }
+        else {
+            return x;
+        }
+    }
 }
 export class RNG {
     constructor(seed) {

@@ -1,13 +1,15 @@
 
 import { Player } from "../gameplay/player.js";
 import { Level, Segment } from "../gameplay/world.js";
-import { $, DX, DY } from "../utilities.js";
+import { $, DX, DY } from "../utilities/utilities.js";
 import * as THREE from "three";
+import {Point} from "../init.js";
+
 
 const RENDER_DISTANCE: number = 5;
 let renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.PerspectiveCamera;
 let levelMeshes: THREE.Mesh[] = [];
-let walls: THREE.Group, prevPlayerChunkPos: {x:number,y:number} = {x:-1,y:-1}, levelMaterial: THREE.Material;
+let walls: THREE.Group, prevPlayerChunkPos: Point = {x:-1,y:-1}, levelMaterial: THREE.Material;
 
 export function initRendering(){
     renderer = new THREE.WebGLRenderer();
@@ -106,7 +108,7 @@ export function updateCamera(player:Player):void{
 export function updateChunks(level: Level, player: Player):void{
     
     
-    let playerChunkPos:{x:number,y:number} = {x:Math.floor(player.position.x/10),y:Math.floor(player.position.y/10)};
+    let playerChunkPos:Point = {x:Math.floor(player.position.x/10),y:Math.floor(player.position.y/10)};
     if(playerChunkPos.x === prevPlayerChunkPos.x && playerChunkPos.y === prevPlayerChunkPos.y)return;
     if(walls){
         scene.remove(walls)

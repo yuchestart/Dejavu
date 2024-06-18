@@ -1,5 +1,6 @@
 import { Player } from "./player.js";
 import {RNG} from "../utilities/random.js"
+import { Point } from "../init.js";
 /**
  * A 10x10 segment of a level
  */
@@ -29,11 +30,12 @@ export class Segment
 export class Level
 {
     private random: RNG;
+    private easterEggTexturePath: string = "./assets/img/她画了所有个怪物.png";
     public segments: Array<Segment>;
     public level: Array<Array<number>> = [];
     public width: number;
     public height: number;
-    public spawnlocation:{x:number,y:number} = {x:-1,y:-1};
+    public spawnlocation:Point = {x:0,y:0};
     public wallTexturePath: string;
 
     constructor(segments: Array<Segment>,seed?:number,width:number = 50,height:number = 50,wallTexturePath?:string)
@@ -102,11 +104,12 @@ export class Level
 
     public setSpawn():void
     {
-        
-        this.spawnlocation = {
-            x:Math.floor(this.random.random()*this.width),
-            y:Math.floor(this.random.random()*this.width)
-        }
+        this.level[0][0] = -1
+        //
+        //this.spawnlocation = {
+        //    x:Math.floor(this.random.random()*this.width),
+        //    y:Math.floor(this.random.random()*this.width)
+        //}
     }
 }
 

@@ -1,4 +1,4 @@
-import { $ } from "./utilities.js";
+import { $ } from "./utilities/utilities.js";
 export function die() {
     $("youdied").id.hidden = false;
     $("youdiedtext").id.hidden = true;

@@ -1,7 +1,7 @@
-import { $ } from "./utilities.js";
+import { $ } from "./utilities/utilities.js";
 
 
-export function die(){
+export function die(entityType: Enumerator){
     $("youdied").id.hidden = false;
     $("youdiedtext").id.hidden = true;
     $("playagain").id.hidden = true;

@@ -15,6 +15,28 @@ export function $(toquery: string, parent?: HTMLElement):{
         querySelector:document.querySelectorAll(toquery)
     }
 }
+
+export function clamp(x:number,a:number,b:number,loop:boolean = false):number{
+    if(loop)
+        if(x < a){
+            return x + Math.abs(b-a);
+        } else if(x > b){
+            return x - Math.abs(b-a);
+        } else {
+            return x;
+        }
+    else{
+        if(x < a){
+            return a;
+        } else if(x > b){
+            return b;
+        } else {
+            return x
+        }
+    }
+        
+}
+
 export class RNG{
     private w:number = 32;
     private n:number = 624;

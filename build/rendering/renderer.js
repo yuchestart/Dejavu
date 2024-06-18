@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { $, DX, DY } from "../utilities.js";
+import { $, DX, DY } from "../utilities/utilities.js";
 import * as THREE from "three";
 const RENDER_DISTANCE = 5;
 let renderer, scene, camera;
@@ -71,7 +71,6 @@ function generateSegmentMesh(segment) {
     let geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(positionData), 3));
     geometry.setAttribute("uv", new THREE.BufferAttribute(new Float32Array(uv), 2));
-    //geometry.setIndex(indices);
     let mesh = new THREE.Mesh(geometry);
     return mesh;
 }

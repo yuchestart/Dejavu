@@ -1,11 +1,12 @@
-import { $ } from  "../utilities.js"
+import { Point } from "../init.js";
+import { $ } from  "../utilities/utilities.js"
 
 export class Input{
 
     public container: /*HTMLCanvasElement*/ Document;
     public KeyDown:{[id: string]:boolean} = {};
     public Mouse:{
-        position:{x:number,y:number},
+        position:Point,
         Button1Down:boolean,
         Button2Down:boolean,
         Button3Down:boolean

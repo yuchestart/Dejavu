@@ -1,13 +1,10 @@
 import { RNG } from "../utilities/random.js";
-/**
- * A 10x10 segment of a level
- */
 export class Segment {
     constructor(data) {
         this.data = data;
     }
     draw(ctx, scale = 1, offsetX = 0, offsetY = 0) {
-        ctx.fillStyle = "black"; //TEMPORARY: ONLY USED FOR DISPLAY PURPOSES
+        ctx.fillStyle = "black";
         for (let row = 0; row < 10; row++) {
             for (let column = 0; column < 10; column++) {
                 if (!this.data[row][column])
@@ -20,7 +17,7 @@ export class Segment {
 export class Level {
     constructor(segments, seed, width = 50, height = 50, wallTexturePath) {
         this.level = [];
-        this.spawnlocation = { x: -1, y: -1 };
+        this.spawnlocation = { x: 0, y: 0 };
         this.segments = segments;
         this.segments[-1] = new Segment([
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -63,16 +60,11 @@ export class Level {
                 if (this.level[row][column] === -1)
                     continue;
                 this.segments[this.level[row][column]].draw(ctx, scale, column * scale * 10, row * scale * 10);
-                //break;
             }
-            //break;
         }
     }
     setSpawn() {
-        this.spawnlocation = {
-            x: Math.floor(this.random.random() * this.width),
-            y: Math.floor(this.random.random() * this.width)
-        };
+        this.level[0][0] = -1;
     }
 }
 export function loadLevels(filepath, callback) {
