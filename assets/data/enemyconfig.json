@@ -1,0 +1,8 @@
+{
+    "enemies":{
+        "screamingchaser":{
+            "renderType":"billboard",
+            "materialType":"basic"
+        }
+    }
+}

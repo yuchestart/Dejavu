@@ -5,9 +5,9 @@
 [X] - Complete
 
 
-# Screaming Chaser
+# Screaming Chaser(screamingchaser)
 COMPLETION:
-[ ] Mechanics
+[/] Mechanics
 [X] Visuals
 [X] Audio
 Type: Billboard
@@ -21,7 +21,7 @@ Initially, the screaming chaser DFS's a path to the player, changing the path ev
 When the player is 0.75 units away from the screaming chaser, the player dies and gets jumpscared.
 The screaming chaser despawns after an accumulated of 2 minutes time in following the DFS path, as long as it's outside of the hearing threshold of the player.
 
-# Neck Snapper
+# Neck Snapper(necksnapper)
 COMPLETION:
 [ ] Mechanics
 [X] Visuals
@@ -46,7 +46,7 @@ In the case where the player does not look at the neck snapper, another sound pl
 
 The neck snapper despawns after an accumulated of 1 minutes time in following the DFS path.
 
-# Shall not pass/Guard
+# Shall not pass/Border Guard(shallnotpass)
 COMPLETION:
 [ ] Mechanics
 [ ] Visuals
@@ -54,16 +54,17 @@ COMPLETION:
 Type: Mesh
 Mesh: assets/mesh/shallnotpass.json
 Asset Name: shallnotpass
-Visual Description: A security guard of unknown affiliation, armed with a rifle, dressed in tactical gear similar to a US soldier but colors are mainly blueish-grey, has missing eyes that are bleeding, and sharp, pointed teeth.
+Visual Description: A security guard of unknown affiliation, armed with a rifle, dressed in tactical gear similar to a US soldier but colors are mainly blueish-grey, has missing eyes that are bleeding, and sharp, pointed teeth, male face, caucasian.
 Jumpscare Audio: 3 gunshots, separated exactly 0.1 seconds after eachother. After the first gunshot, a high pitched ringing noise.
 Jumpscare Visual: The guard shoots you and stares at you, his eyes glowing with red light. After every gunshot, the camera shakes. After about 3 seconds, the camera falls flat to the floor.
 Description:
 
 On occasional points throughout the level, the shall not pass spawns on the entrance of a segment.
-If the player enters an unobstructed distance of 10 units, then a sound plays positioned at the guard: "donotpass.mp3"(A guard hoarsely barking: "You shall not pass");
+If the player enters an unobstructed distance of 10 units, then a sound plays positioned at the guard: "donotpass.mp3"(A guard hoarsely barking: "Do not pass.");
 If the player enters an unobstructed distance of 3 units, then the jumpscare is triggered before the player dies.
+Shall not pass despawns after 3 minutes of inactivity.
 
-# Stair Chaser
+# Stair Chaser/Get outta my property(stairchaser)
 COMPLETION:
 [ ] Mechanics
 [ ] Visuals
@@ -82,10 +83,20 @@ The stair chaser will play "getoffamyproperty.mp3"(an angry, hoarse, Alabama'y v
 Upon the player being 0.5 units away from the stair chaser, the player gets jumpscared and dies.
 If the player exits the stairwell, then "andstayout.mp3" will play andstayout.mp3(A angry, hoarse, Alabama'y voice shouting "and stay out!"), and then despawns.
 
-# Shadowy Piano Man
+# Shadowy Piano Man(shadowypianoman)
 COMPLETION:
 [ ] Mechanics
 [ ] Visuals
 [ ] Audio
 Type: Mesh
+Mesh: assets/mesh/shadowypianoman.json
+Asset Name: shadowypianoman
+Visual Description: A man playing the piano, both completely black.
+Jumpscare Audio: creepymusic.mp3 but the equalizer is turned way up
+Jumpscare Visuals: The shadowy piano man punches the camera, and blackout.
+Description:
 
+Shadowy piano man spawns randomly throughout the level, at least 5 segments away from the player, outside visual range.
+You can hear creepymusic.mp3 playing on loop when you are within the vicinity of the shadowy piano man.
+If the shadowy piano man is in visual range of the player, and the player can see him, then creepymusic.mp3 stops and he disappears after 0.2 seconds.
+After that, the jumpscare is triggered.
