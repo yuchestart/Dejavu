@@ -37,6 +37,14 @@ export function clamp(x:number,a:number,b:number,loop:boolean = false):number{
         
 }
 
+export function deg2rad(deg: number): number{
+    return deg/180*Math.PI;
+}
+
+export function rad2deg(rad: number): number{
+    return rad/Math.PI*180;
+}
+
 export class RNG{
     private w:number = 32;
     private n:number = 624;
