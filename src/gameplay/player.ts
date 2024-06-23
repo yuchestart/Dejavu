@@ -113,6 +113,13 @@ export class Player{
         this.position.heading = rotation;
     }
 
+    
+/**
+ * Update the player's position and everything
+ * @param input 
+ * @param level 
+ * @returns 
+ */
     public update(input: Input, level:Level):void{
         if(this.dead) return;
         if(this.nocliptimer < 100){
@@ -223,6 +230,11 @@ export class Player{
         if(this.position.y < 0) this.position.y += level.height*10
     }
 
+    /**
+     * @deprecated For debugging purposes only
+     * @param ctx Canvas Rendering Context to draw on
+     * @param scale The scale of the drawing
+     */
     public draw(ctx:CanvasRenderingContext2D,scale = 1):void{
         const radians: number = (this.position.heading / 180) * Math.PI;
         const rotfactorx: number = Math.sin(radians);
@@ -237,6 +249,9 @@ export class Player{
         ctx.stroke();
     }
 
+    /**
+     * The player dies when this function is called.
+     */
     public die():void{
         this.dead = true;
     }
