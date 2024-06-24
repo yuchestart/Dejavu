@@ -1,4 +1,3 @@
-import { Player } from "./player.js";
 import {RNG} from "../utilities/random.js"
 import { Point } from "../init.js";
 /**
@@ -87,7 +86,7 @@ export class Level
         
     }
 
-    public draw(ctx:CanvasRenderingContext2D, player: Player,scale:number = 1):void
+    public draw(ctx:CanvasRenderingContext2D ,scale:number = 1):void
     {
         for(let row:number=0; row < this.height; row++)
         {
