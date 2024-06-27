@@ -5,4 +5,7 @@ class ScreamingChaser extends Entity{
     public behavior(player: Player){
         
     }
+    public init(){
+        
+    }
 }
