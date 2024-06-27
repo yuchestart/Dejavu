@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { $, DX, DY } from "../utilities/utilities.js";
 import * as THREE from "three";
+import { Entity } from "../gameplay/entities.js";
 const RENDER_DISTANCE = 5;
 let renderer, scene, camera;
 let levelMeshes = [];
@@ -129,4 +130,14 @@ export function updateChunks(level, player) {
     }
     scene.add(walls);
     console.log(walls);
+}
+export function addEntity(entity) {
+    if (entity instanceof Array) {
+        for (let x in entity) {
+            scene.add(entity[x].object);
+        }
+    }
+    else if (entity instanceof Entity) {
+        scene.add(entity.object);
+    }
 }

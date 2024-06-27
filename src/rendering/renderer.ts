@@ -4,6 +4,7 @@ import { Level, Segment } from "../gameplay/world.js";
 import { $, DX, DY } from "../utilities/utilities.js";
 import * as THREE from "three";
 import {Point} from "../init.js";
+import { Entity } from "../gameplay/entities.js";
 
 
 const RENDER_DISTANCE: number = 5;
@@ -139,4 +140,15 @@ export function updateChunks(level: Level, player: Player):void{
     }
     scene.add(walls);
     console.log(walls)
+}
+
+
+export function addEntity(entity: Entity|Entity[]){
+    if(entity instanceof Array){
+        for(let x in entity){
+            scene.add(entity[x].object);
+        }
+    } else if (entity instanceof Entity){
+        scene.add(entity.object);
+    }
 }
