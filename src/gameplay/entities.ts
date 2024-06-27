@@ -6,14 +6,14 @@ import { Level } from "./world.js";
 export abstract class Entity{
     public object: Sprite | Mesh;
 
-    private texturePath: string;
-    private objectProperties:{texture:Texture|null,geometry?:any} = {
+    protected texturePath: string;
+    protected objectProperties:{texture:Texture|null,geometry?:any} = {
         texture:null,
         geometry:null
     };
-    private position: {x:number,y:number,rotation:number} = {x:0,y:0,rotation:0}
-    private material: MeshPhongMaterial | MeshBasicMaterial | SpriteMaterial | null = null;
-    private objectType: string;
+    protected position: {x:number,y:number,rotation:number} = {x:0,y:0,rotation:0}
+    protected material: MeshPhongMaterial | MeshBasicMaterial | SpriteMaterial | null = null;
+    protected objectType: string;
     
 
     //#region Initialization
@@ -34,6 +34,7 @@ export abstract class Entity{
         const loader = new TextureLoader();
         const texture:Texture = await loader.loadAsync(texturePath);
         texture.colorSpace = SRGBColorSpace;
+        this.objectProperties.texture=texture;
     }
 
     public initializeMaterial(materialType: string = "basic"): void{
@@ -71,7 +72,9 @@ export abstract class Entity{
 
     public abstract behavior(...args):void
 
-    private updatePosition(x: number, y: number,rot?: number): void{
+    public abstract init():void | Promise<void>
+
+    protected updatePosition(x: number, y: number,rot?: number): void{
         this.position.x = x;
         this.position.y = y;
         this.object.position.x = this.position.x;
@@ -80,7 +83,7 @@ export abstract class Entity{
         this.object.rotation.y = deg2rad(this.position.rotation);
     }
     
-    private updateRotation(rot?: number): void{
+    protected updateRotation(rot?: number): void{
         this.position.rotation = rot;
         this.object.rotation.y = deg2rad(rot);
     }
@@ -89,8 +92,15 @@ export abstract class Entity{
 export class PlaceholderEntity extends Entity{
     constructor(){
         super();
+        
+    }
+    public async init(){
         this.initializeObject("billboard");
-        this.initializeTexture("./assets/img/placeholdermonster.png")
+        await this.initializeTexture("./assets/img/placeholdermonster.png");
+        this.initializeMaterial();
+        this.material.needsUpdate = true;
+        this.prepareObjectForRendering();
+        this.updatePosition(5,5,0);
     }
     public behavior(): void{
 
