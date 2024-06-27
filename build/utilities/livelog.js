@@ -16,10 +16,11 @@ export function initLiveLog() {
 export function checkPaused() {
     return paused;
 }
-export function addPlayEvent(playEvent) {
-    playEvent = playEvent;
+export function addPlayEvent(pe) {
+    playEvent = pe;
 }
 export function liveLog(...values) {
+    livelogtext += `[${frameCount}] - `;
     for (let i = 0; i < values.length; i++) {
         livelogtext += JSON.stringify(values[i]);
         if (i < values.length - 1) {
@@ -43,8 +44,8 @@ export function logSegment(segment, playerPosition) {
     liveLog("========================");
 }
 export function updateLivelog() {
-    frameCount++;
     $("llframecount").id.innerText = frameCount.toString();
     $("lltext").id.value = livelogtext;
     livelogtext = "";
+    frameCount++;
 }

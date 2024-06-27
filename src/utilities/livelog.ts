@@ -12,7 +12,7 @@ import { $ } from "./utilities.js";
 let frameCount: number = 0;
 let livelogtext: string = '';
 let paused: boolean = false;
-let playEvent: Function;
+let playEvent: Function | null;
 
 export function initLiveLog(): void{
     $("llpause").id.addEventListener("click",function(){
@@ -29,18 +29,19 @@ export function checkPaused(): boolean{
     return paused;
 }
 
-export function addPlayEvent(playEvent: Function): void{
-    playEvent = playEvent;
+export function addPlayEvent(pe: Function): void{
+    playEvent = pe;
 }
 
 export function liveLog(...values: any[]){
+    livelogtext += `[${frameCount}] - `
     for(let i=0; i<values.length; i++){
         livelogtext += JSON.stringify(values[i]);
         if(i < values.length - 1){
             livelogtext+=" "
         }
     }
-    livelogtext += "\n"
+    livelogtext += "\n";
 }
 
 export function logSegment(segment: Segment,playerPosition: Point){
@@ -59,10 +60,11 @@ export function logSegment(segment: Segment,playerPosition: Point){
 }
 
 export function updateLivelog(): void{
-    frameCount++;
+    
 
     //console.log(($("framecount",$("livelog").id).class[0] as HTMLSpanElement));
     ($("llframecount").id as HTMLSpanElement).innerText = frameCount.toString();
     ($("lltext").id as HTMLInputElement).value = livelogtext;
     livelogtext = "";
+    frameCount++;
 }
