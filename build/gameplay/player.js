@@ -23,8 +23,8 @@ export class Player {
     }
     detectCollision(level) {
         let chunkCoordinates = {
-            x: clamp(Math.floor(this.position.x / 10), 0, level.width, true),
-            y: clamp(Math.floor(this.position.y / 10), 0, level.height, true)
+            x: clamp(Math.floor(this.position.x / 10), 0, level.width, true, true),
+            y: clamp(Math.floor(this.position.y / 10), 0, level.height, true, true)
         };
         let segmentCoordinates = {
             x: this.position.x % 10,
@@ -49,8 +49,8 @@ export class Player {
             let offsetx = DX[i];
             let offsety = DY[i];
             let chunkCoordinates = {
-                x: Math.floor(clamp(this.position.x / 10 - offsetx, 0, level.width, true)),
-                y: Math.floor(clamp(this.position.y / 10 - offsety, 0, level.height, true))
+                x: Math.floor(clamp(this.position.x / 10 - offsetx, 0, level.width, true, true)),
+                y: Math.floor(clamp(this.position.y / 10 - offsety, 0, level.height, true, true))
             };
             liveLog("SIDE:", offsetx, offsety);
             logSegment(level.segments[level.level[chunkCoordinates.y][chunkCoordinates.x]], { x: segmentCoordinates.x - offsetx * 10, y: segmentCoordinates.y - offsety * 10 });

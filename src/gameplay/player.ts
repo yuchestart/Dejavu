@@ -29,8 +29,8 @@ export class Player{
 
     private detectCollision(level:Level): boolean{
         let chunkCoordinates:Point = {
-            x:clamp(Math.floor(this.position.x/10),0,level.width,true),
-            y:clamp(Math.floor(this.position.y/10),0,level.height,true)
+            x:clamp(Math.floor(this.position.x/10),0,level.width,true,true),
+            y:clamp(Math.floor(this.position.y/10),0,level.height,true,true)
         }
         let segmentCoordinates:Point = {
             x:this.position.x%10,
@@ -59,8 +59,8 @@ export class Player{
             let offsetx: number = DX[i];
             let offsety: number = DY[i];
             let chunkCoordinates: Point = {
-                x: Math.floor(clamp(this.position.x/10-offsetx, 0, level.width, true)),
-                y: Math.floor(clamp(this.position.y/10-offsety, 0, level.height, true))
+                x: Math.floor(clamp(this.position.x/10-offsetx, 0, level.width, true,true)),
+                y: Math.floor(clamp(this.position.y/10-offsety, 0, level.height, true,true))
             }
             //console.log(chunkCoordinates)
             liveLog("SIDE:",offsetx,offsety)

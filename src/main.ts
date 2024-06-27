@@ -4,10 +4,10 @@ import { $ } from "./utilities/utilities.js";
 import { Level, loadLevels } from "./gameplay/world.js";
 //import { makeScan, renderScene, scanLevel } from "./rendering/renderer.js";
 import { die } from "./gui.js";
-import { drawScene, initRendering, prepareLevels, updateCamera, updateChunks } from "./rendering/renderer.js";
+import { addEntity, drawScene, initRendering, prepareLevels, updateCamera, updateChunks } from "./rendering/renderer.js";
 import { NUMBER_OF_LEVELS } from "./init.js";
 import { addPlayEvent, checkPaused, initLiveLog, updateLivelog } from "./utilities/livelog.js";
-import { Entity } from "./gameplay/entities.js";
+import { Entity, PlaceholderEntity } from "./gameplay/entities.js";
 
 
 let input:Input,
@@ -30,14 +30,17 @@ async function setup(callback: Function): Promise<void>{
         await prepareLevels(levels[i]);
         levels[i].generate();
     }
-
+    entity = new PlaceholderEntity();
+    await entity.init();
+    addEntity(entity);
+    addPlayEvent(mainloop);
     callback();
 }
 
 function begin(){
-    entity = 
+    
     $("mainmenu").id.hidden = true;
-    addPlayEvent(mainloop);
+    
     mainloop();
 }
 
@@ -52,10 +55,12 @@ function mainloop():void{
         if(!checkPaused())
         requestAnimationFrame(mainloop);
     }catch(e){
+        updateLivelog();
         console.error(e.stack);
     }
 }
 function main():void{
+    ;
     input = new Input();
     player = new Player("./assets/audio/footsteps.mp3","./assets/audio/run.mp3","./assets/audio/noclip.mp3");
     canvas = $("main").id as HTMLCanvasElement;
@@ -65,7 +70,7 @@ function main():void{
     loadLevels("./levels/levels.json",function(b: Level[]){
         levels = b;
         player.setSpawn(b[0].spawnlocation.x,b[0].spawnlocation.y);
-        
+       
         setup(function(){
             $("play").id.addEventListener("click",begin);
         });

@@ -16,11 +16,11 @@ export function $(toquery: string, parent?: HTMLElement):{
     }
 }
 
-export function clamp(x:number,a:number,b:number,loop:boolean = false):number{
+export function clamp(x:number,a:number,b:number,loop:boolean = false, inclusive:boolean = false):number{
     if(loop)
-        if(x < a){
+        if(inclusive?(x < a):(x <= a)){
             return x + Math.abs(b-a);
-        } else if(x > b){
+        } else if(inclusive?(x >= b):(x>b)){
             return x - Math.abs(b-a);
         } else {
             return x;

@@ -10,12 +10,12 @@ export function $(toquery, parent) {
         querySelector: document.querySelectorAll(toquery)
     };
 }
-export function clamp(x, a, b, loop = false) {
+export function clamp(x, a, b, loop = false, inclusive = false) {
     if (loop)
-        if (x < a) {
+        if (inclusive ? (x < a) : (x <= a)) {
             return x + Math.abs(b - a);
         }
-        else if (x > b) {
+        else if (inclusive ? (x >= b) : (x > b)) {
             return x - Math.abs(b - a);
         }
         else {
@@ -32,6 +32,12 @@ export function clamp(x, a, b, loop = false) {
             return x;
         }
     }
+}
+export function deg2rad(deg) {
+    return deg / 180 * Math.PI;
+}
+export function rad2deg(rad) {
+    return rad / Math.PI * 180;
 }
 export class RNG {
     constructor(seed) {

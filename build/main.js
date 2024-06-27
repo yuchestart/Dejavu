@@ -11,11 +11,13 @@ import { Input } from "./gameplay/input.js";
 import { Player } from "./gameplay/player.js";
 import { $ } from "./utilities/utilities.js";
 import { loadLevels } from "./gameplay/world.js";
-import { drawScene, initRendering, prepareLevels, updateCamera, updateChunks } from "./rendering/renderer.js";
+import { addEntity, drawScene, initRendering, prepareLevels, updateCamera, updateChunks } from "./rendering/renderer.js";
 import { addPlayEvent, checkPaused, initLiveLog, updateLivelog } from "./utilities/livelog.js";
+import { PlaceholderEntity } from "./gameplay/entities.js";
 let input, ctx, canvas, player;
 let level = 0;
 let levels;
+let entity;
 function setup(callback) {
     return __awaiter(this, void 0, void 0, function* () {
         initLiveLog();
@@ -26,12 +28,15 @@ function setup(callback) {
             yield prepareLevels(levels[i]);
             levels[i].generate();
         }
+        entity = new PlaceholderEntity();
+        yield entity.init();
+        addEntity(entity);
+        addPlayEvent(mainloop);
         callback();
     });
 }
 function begin() {
     $("mainmenu").id.hidden = true;
-    addPlayEvent(mainloop);
     mainloop();
 }
 function mainloop() {
@@ -45,10 +50,12 @@ function mainloop() {
             requestAnimationFrame(mainloop);
     }
     catch (e) {
+        updateLivelog();
         console.error(e.stack);
     }
 }
 function main() {
+    ;
     input = new Input();
     player = new Player("./assets/audio/footsteps.mp3", "./assets/audio/run.mp3", "./assets/audio/noclip.mp3");
     canvas = $("main").id;
