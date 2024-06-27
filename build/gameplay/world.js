@@ -16,6 +16,7 @@ export class Segment {
 }
 export class Level {
     constructor(segments, seed, width = 50, height = 50, wallTexturePath) {
+        this.easterEggTexturePath = "./assets/img/她画了所有个怪物.png";
         this.level = [];
         this.spawnlocation = { x: 0, y: 0 };
         this.segments = segments;
@@ -54,7 +55,7 @@ export class Level {
             }
         }
     }
-    draw(ctx, player, scale = 1) {
+    draw(ctx, scale = 1) {
         for (let row = 0; row < this.height; row++) {
             for (let column = 0; column < this.width; column++) {
                 if (this.level[row][column] === -1)
